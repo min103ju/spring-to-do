@@ -1,20 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Sign up</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Signin Template for Bootstrap</title>
+
+    <!-- Bootstrap -->
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-    <h1>Sign Up</h1> <hr>
 
-    <form th:action="@{/user}" method="POST">
-        email : <input type="text" name="email"> <br>
-        password : <input type="password" name="password"> <br>
-        <input type="radio" name="auth" value="ROLE_ADMIN,ROLE_USER"> admin
-        <input type="radio" name="auth" value="ROLE_USER" checked="checked"> user <br>
-        <button type="submit">Join</button>
-    </form> <br>
+<div class="container">
 
-    <a href="/login">Go to login →</a>
+    <form class="form-signin" th:action="@{/user}" method="post">
+        <h2 class="form-signin-heading">Sign Up</h2>
+
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+
+        <div class="input-group">
+            <span class="input-group-addon">
+                <input type="radio" name="auth" value="ROLE_ADMIN,ROLE_USER" checked="checked"> Admin <br>
+            </span>
+            <span class="input-group-addon">
+                <input type="radio" name="auth" value="ROLE_USER" checked="checked"> User <br>
+            </span>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+
+
+</div> <!-- /container -->
+
+
 </body>
 </html>
