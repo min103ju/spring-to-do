@@ -1,8 +1,10 @@
 package com.security.todo.controller;
 
 import com.security.todo.model.Todo;
+import com.security.todo.model.UserInfo;
 import com.security.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +17,8 @@ public class TodoController {
 
 
     @PostMapping("/todo")
-    public void addTodo(@RequestBody Todo todo) throws Exception {
-        todoService.addTodo(todo);
+    public void addTodo(@AuthenticationPrincipal UserInfo userInfo, String content) throws Exception {
+        todoService.addTodo(userInfo, content);
     }
 
     @ResponseBody

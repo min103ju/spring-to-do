@@ -62,12 +62,9 @@ public class TodoTest {
 
     @Test
     void addTodo() throws Exception {
-        long idx = 1L;
-        Todo todo = new Todo(idx, "Description Add Todo" + idx, false, Instant.now(), null);
-
         mockMvc.perform(post("/todo")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(todo)))
+                .content("Content Add Todo"))
                 .andExpect(status().isOk());
     }
 
@@ -91,7 +88,7 @@ public class TodoTest {
     @Test
     void updateTodo() throws Exception {
         long idx = 1L;
-        Todo todo = new Todo(idx, "Update Todo" + idx, false, Instant.now(), null);
+        Todo todo = new Todo(idx, "Update Todo" + idx, "admin",false, Instant.now(), null);
 
         mockMvc.perform(put("/todo")
                 .contentType(MediaType.APPLICATION_JSON)

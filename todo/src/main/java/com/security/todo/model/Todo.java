@@ -20,6 +20,7 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pkey;
     private String content;
+    private String writer;
     private boolean complete = false;
     private Instant createDate = Instant.now();
     private Instant completeDate;

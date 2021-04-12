@@ -1,13 +1,13 @@
 package com.security.todo.service;
 
 import com.security.todo.model.Todo;
-import org.springframework.stereotype.Service;
+import com.security.todo.model.UserInfo;
 
 import java.util.List;
 
 public interface TodoService {
 
-    public void addTodo(Todo todo);
+    public void addTodo(UserInfo userInfo, String content);
 
     public Todo getTodo(Long pkey);
 

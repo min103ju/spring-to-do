@@ -1,12 +1,13 @@
 package com.security.todo.service;
 
 import com.security.todo.model.Todo;
+import com.security.todo.model.UserInfo;
 import com.security.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -16,7 +17,8 @@ public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
 
-    public void addTodo(Todo todo) {
+    public void addTodo(UserInfo userInfo, String content) {
+        Todo todo = new Todo(null, content, userInfo.getUsername(), false, Instant.now(), null);
         todoRepository.save(todo);
     }
 
