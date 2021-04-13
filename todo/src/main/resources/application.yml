@@ -1,4 +1,4 @@
-spring:
+server:
   servlet:
     context-path: /todo
 

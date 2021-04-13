@@ -4,8 +4,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 
     <title>Todo List</title>
     <!-- Bootstrap -->
@@ -25,18 +23,13 @@
 <script>
 
     const contextPath = '/todo';
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-    const headers = {
-        'X-CSRFToken' : token
-    }
 
     $(document).ready(() => {
         loadTodoList();
     });
 
     const loadTodoList = () => {
-        axios.get(`${contextPath}/todos`, csrf)
+        axios.get(`${contextPath}/todos`)
             .then(
                 response => {
                     //response.todo;
@@ -76,7 +69,7 @@
     const addTodo = () => {
         const content = document.getElementById('content').value;
 
-        axios.post(`${contextPath}/todo`, {content : content}, {headers})
+        axios.post(`${contextPath}/todo`, {content : content})
             .then(
                 response => {
                     loadTodoList();
@@ -90,7 +83,7 @@
     }
 
     const editTodo = () => {
-        axios.put(`${contextPath}/todo`, {headers})
+        axios.put(`${contextPath}/todo`)
             .then(
                 response => {
                     alert('axios test');
@@ -104,7 +97,7 @@
     }
 
     const deleteTodo = () => {
-        axios.delete(`${contextPath}/todos`, {headers})
+        axios.delete(`${contextPath}/todos`)
             .then(
                 response => {
                     alert('axios test');
