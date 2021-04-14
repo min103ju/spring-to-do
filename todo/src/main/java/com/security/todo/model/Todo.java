@@ -1,5 +1,6 @@
 package com.security.todo.model;
 
+import com.security.todo.model.response.TodoResp;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -11,9 +12,9 @@ import java.time.Instant;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Entity
 @Getter
-@Setter
 public class Todo {
 
     @Id
@@ -21,12 +22,12 @@ public class Todo {
     private Long pkey;
     private String content;
     private String writer;
+    @Builder.Default
     private boolean complete = false;
+    @Builder.Default
     private Instant createDate = Instant.now();
     private Instant completeDate;
 
-    public boolean isComplete() {
-        return this.complete;
-    }
+
 
 }

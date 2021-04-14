@@ -2,14 +2,16 @@ package com.security.todo.service;
 
 import com.security.todo.model.Todo;
 import com.security.todo.model.UserInfo;
+import com.security.todo.model.request.TodoReq;
+import com.security.todo.model.response.TodoResp;
 import com.security.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -18,7 +20,10 @@ public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
 
     public void addTodo(UserInfo userInfo, String content) {
-        Todo todo = new Todo(null, content, userInfo.getUsername(), false, Instant.now(), null);
+        Todo todo = Todo.builder()
+                .content(content)
+                .writer(userInfo.getUsername())
+                .build();
         todoRepository.save(todo);
     }
 
@@ -28,20 +33,22 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<Todo> getTodos() {
-        return todoRepository.findAll();
+    public List<TodoResp> getTodos() {
+        return todoRepository.findAll().stream()
+                .map(x -> TodoResp.makeData(x))
+                .collect(Collectors.toList());
     }
 
-    public void updateTodo(Todo todo) {
+    public void updateTodo(TodoReq todoReq) {
+        Todo todo = TodoReq.makeDomain(todoReq);
         todoRepository.save(todo);
     }
 
     @Override
-    public void updateComplete(Todo todo) {
-        if(!todo.isComplete()) {
-            todo.setComplete(true);
-            todoRepository.save(todo);
-        }
+    public void completeTodo(TodoReq todoReq) {
+        todoReq.setComplete(true);
+        Todo todo = TodoReq.makeDomain(todoReq);
+        todoRepository.save(todo);
     }
 
     @Override
