@@ -1,6 +1,6 @@
-package com.security.todo.model;
+package com.security.todo.model.domain;
 
-import com.security.todo.model.response.TodoResp;
+import com.security.todo.model.dto.TodoDto;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -28,6 +28,15 @@ public class Todo {
     private Instant createDate = Instant.now();
     private Instant completeDate;
 
-
+    public TodoDto todoDto() {
+        return new TodoDto(
+                this.pkey,
+                this.content,
+                this.writer,
+                this.complete,
+                this.createDate,
+                this.completeDate
+        );
+    }
 
 }

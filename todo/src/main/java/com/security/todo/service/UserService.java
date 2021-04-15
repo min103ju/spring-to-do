@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -14,22 +15,22 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * Spring Security 필수 메소드 구현
-     * @param email
-     * @return UserDetails
+     * @param username
+     * @return
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserInfo loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
+    public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
     public Long save(UserInfoDto userInfoDto) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userInfoDto.setPassword(encoder.encode(userInfoDto.getPassword()));
+        userInfoDto.setPassword(passwordEncoder.encode(userInfoDto.getPassword()));
 
         return userRepository.save(
                 UserInfo.builder()

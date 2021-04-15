@@ -1,9 +1,8 @@
 package com.security.todo.service;
 
-import com.security.todo.model.Todo;
+import com.security.todo.model.domain.Todo;
 import com.security.todo.model.UserInfo;
-import com.security.todo.model.request.TodoReq;
-import com.security.todo.model.response.TodoResp;
+import com.security.todo.model.dto.TodoDto;
 import com.security.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,22 +32,20 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<TodoResp> getTodos() {
+    public List<TodoDto> getTodos() {
         return todoRepository.findAll().stream()
-                .map(x -> TodoResp.makeData(x))
+                .map(x -> x.todoDto())
                 .collect(Collectors.toList());
     }
 
-    public void updateTodo(TodoReq todoReq) {
-        Todo todo = TodoReq.makeDomain(todoReq);
-        todoRepository.save(todo);
+    public void updateTodo(TodoDto todoDto) {
+        todoRepository.save(todoDto.toEntity());
     }
 
     @Override
-    public void completeTodo(TodoReq todoReq) {
-        todoReq.setComplete(true);
-        Todo todo = TodoReq.makeDomain(todoReq);
-        todoRepository.save(todo);
+    public void completeTodo(TodoDto todoDto) {
+        todoDto.setComplete(true);
+        todoRepository.save(todoDto.toEntity());
     }
 
     @Override

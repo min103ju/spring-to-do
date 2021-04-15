@@ -1,9 +1,8 @@
 package com.security.todo.controller;
 
-import com.security.todo.model.Todo;
+import com.security.todo.model.domain.Todo;
 import com.security.todo.model.UserInfo;
-import com.security.todo.model.request.TodoReq;
-import com.security.todo.model.response.TodoResp;
+import com.security.todo.model.dto.TodoDto;
 import com.security.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,19 +31,19 @@ public class TodoController {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<TodoResp>> getTodos() {
+    public ResponseEntity<List<TodoDto>> getTodos() {
         return new ResponseEntity(todoService.getTodos(), HttpStatus.OK);
     }
 
     @PutMapping("/todo")
-    public ResponseEntity updateTodo(TodoReq todoReq) {
-        todoService.updateTodo(todoReq);
+    public ResponseEntity updateTodo(TodoDto todoDto) {
+        todoService.updateTodo(todoDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PatchMapping("/complete")
-    public ResponseEntity completeTodo(TodoReq todoReq) {
-        todoService.completeTodo(todoReq);
+    public ResponseEntity completeTodo(TodoDto todoDto) {
+        todoService.completeTodo(todoDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
