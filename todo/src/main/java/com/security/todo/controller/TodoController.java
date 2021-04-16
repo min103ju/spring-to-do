@@ -20,9 +20,8 @@ public class TodoController {
 
 
     @PostMapping("/todo")
-    public ResponseEntity addTodo(String content, @AuthenticationPrincipal UserInfo userInfo) {
-        todoService.addTodo(userInfo, content);
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity addTodo(@RequestBody TodoDto todoDto, @AuthenticationPrincipal UserInfo userInfo) {
+        return new ResponseEntity(todoService.addTodo(userInfo, todoDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/todo")

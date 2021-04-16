@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TodoService {
 
-    public void addTodo(UserInfo userInfo, String content);
+    public TodoDto addTodo(UserInfo userInfo, TodoDto todoDto);
 
     public Todo getTodo(Long pkey);
 

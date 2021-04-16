@@ -23,7 +23,7 @@ public class Todo {
     private String content;
     private String writer;
     @Builder.Default
-    private boolean complete = false;
+    private Boolean complete = false;
     @Builder.Default
     private Instant createDate = Instant.now();
     private Instant completeDate;

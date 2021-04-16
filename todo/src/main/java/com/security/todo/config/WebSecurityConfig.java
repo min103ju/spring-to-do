@@ -3,6 +3,7 @@ package com.security.todo.config;
 import com.security.todo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,7 +16,6 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -29,15 +29,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .cors()
+            .and()
+            .csrf()
+//                .disable()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .and()
             .authorizeRequests()
+//                .anyRequest().permitAll()
                 .antMatchers("/", "/login", "/signup", "/user").permitAll()
                 .antMatchers("/**").hasRole("USER")
                 .anyRequest().authenticated()
             .and()
                 .formLogin()
                 .loginPage("/")
+                .loginProcessingUrl("/login")
                 .failureForwardUrl("/error")
                 .defaultSuccessUrl("/todoList")
             .and()

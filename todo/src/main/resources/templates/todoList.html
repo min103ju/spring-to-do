@@ -20,48 +20,55 @@
     <script src="./js/todo.js"></script>
 
 </head>
+<noscript>
+    Sorry. The Script is Not Working on This Page.
+</noscript>
 <script>
 
-    const contextPath = '/todo';
+    let todoListDom = $('#todolist');
 
     $(document).ready(() => {
         loadTodoList();
+        todoListDom = $('#todolist');
     });
+
+    const contextPath = '/todo';
+
+    const makeTodoItem = (content, writer) => {
+        return '<li class="list-group-item">' + 
+            '<div class="todo-indicator bg-focus"></div>' + 
+            '<div class="widget-content p-0">' + 
+                '<div class="widget-content-wrapper">' + 
+                    '<div class="widget-content-left mr-2">' + 
+                        '<div class="custom-checkbox custom-control"><input class="custom-control-input" id="exampleCustomCheckbox1" type="checkbox"><label class="custom-control-label" for="exampleCustomCheckbox1">&nbsp;</label></div>' + 
+                    '</div>' + 
+                    '<div class="widget-content-left">' + 
+                        '<div class="widget-heading">' + content + '</div>' + 
+                        '<div class="widget-subheading">' + 
+                            '<div>' + writer + '</div>' + 
+                        '</div>' + 
+                    '</div>' + 
+                    '<div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>' + 
+                '</div>' + 
+            '</div>' + 
+        '</li>';
+    }
 
     const loadTodoList = () => {
         axios.get(`${contextPath}/todos`)
             .then(
                 response => {
-                    //response.todo;
-                    //response.writer;
-                    //response.complete;
-                    //response.createDate;
-                    //response.completeDate
-                    response.forEach((todo) => {
-                        let listItem = '<li class="list-group-item">' + 
-                                            '<div class="todo-indicator bg-focus"></div>' + 
-                                            '<div class="widget-content p-0">' + 
-                                                '<div class="widget-content-wrapper">' + 
-                                                    '<div class="widget-content-left mr-2">' + 
-                                                        '<div class="custom-checkbox custom-control"><input class="custom-control-input" id="exampleCustomCheckbox1" type="checkbox"><label class="custom-control-label" for="exampleCustomCheckbox1">&nbsp;</label></div>' + 
-                                                    '</div>' + 
-                                                    '<div class="widget-content-left">' + 
-                                                        '<div class="widget-heading">' + todo.content + '</div>' + 
-                                                        '<div class="widget-subheading">' + 
-                                                            '<div>' + todo.writer + '</div>' + 
-                                                        '</div>' + 
-                                                    '</div>' + 
-                                                    '<div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>' + 
-                                                '</div>' + 
-                                            '</div>' + 
-                                        '</li>';
-                        $('#todolist').append(listItem);
+                    const data = response.data;
+                    data.forEach((todo) => {
+                        const listItem = makeTodoItem(todo.content, todo.writer);
+                        todoListDom.append(listItem);
                     })
                 }
             )
             .catch(
                 error => {
-                    alert('axios test error');
+                    console.log('axios get list error : ', error);
+                    alert('axios get list error');
                 }
             )
     }
@@ -72,14 +79,17 @@
             content : content
         }
 
-        axios.post(`${contextPath}/todo`, {param})
+        axios.post(`${contextPath}/todo`, param)
             .then(
                 response => {
-                    loadTodoList();
+                    const todo = response.data;
+                    const item = makeTodoItem(todo.content, todo.writer);
+                    todoListDom.prepend(item);
                 }
             )
             .catch(
                 error => {
+                    console.log('axios add Todo error : ', error);
                     alert('axios add Todo error : ', error);
                 }
             )
@@ -94,6 +104,7 @@
             )
             .catch(
                 error => {
+                    console.log('axios add Todo error : ', error);
                     alert('axios edit Todo error : ', error);
                 }
             )
@@ -108,6 +119,7 @@
             )
             .catch(
                 error => {
+                    console.log('axios add Todo error : ', error);
                     alert('axios delete Todo error : ', error);
                 }
             )
@@ -125,8 +137,9 @@
                     <perfect-scrollbar class="ps-show-limits">
                         <div style="position: static;" class="ps ps--active-y">
                             <div class="ps-content">
+                                <!-- Task List -->
                                 <ul id="todolist" class="list-group list-group-flush">
-                                    <li class="list-group-item">
+                                    <!-- <li class="list-group-item">
                                         <div class="todo-indicator bg-warning"></div>
                                         <div class="widget-content p-0">
                                             <div class="widget-content-wrapper">
@@ -141,7 +154,7 @@
                                                 <div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>

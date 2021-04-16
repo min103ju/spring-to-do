@@ -5,6 +5,7 @@ import com.security.todo.model.UserInfo;
 import com.security.todo.model.dto.TodoDto;
 import com.security.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +19,12 @@ public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
 
-    public void addTodo(UserInfo userInfo, String content) {
+    public TodoDto addTodo(UserInfo userInfo, TodoDto todoDto) {
         Todo todo = Todo.builder()
-                .content(content)
+                .content(todoDto.getContent())
                 .writer(userInfo.getUsername())
                 .build();
-        todoRepository.save(todo);
+        return todoRepository.save(todo).todoDto();
     }
 
     @Transactional(readOnly = true)
@@ -33,7 +34,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public List<TodoDto> getTodos() {
-        return todoRepository.findAll().stream()
+        return todoRepository.findAll(Sort.by(Sort.Direction.DESC, "pkey")).stream()
                 .map(x -> x.todoDto())
                 .collect(Collectors.toList());
     }

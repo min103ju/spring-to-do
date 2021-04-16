@@ -19,7 +19,7 @@ public class TodoDto {
     private Long pkey;
     private String content;
     private String writer;
-    private boolean complete;
+    private Boolean complete;
     private Instant createDate;
     private Instant completeDate;
 
@@ -28,7 +28,7 @@ public class TodoDto {
                 .pkey(this.getPkey())
                 .content(this.getContent())
                 .writer(this.getWriter())
-                .complete(this.isComplete())
+                .complete(this.getComplete())
                 .createDate(this.getCreateDate())
                 .completeDate(this.getCompleteDate())
                 .build();
