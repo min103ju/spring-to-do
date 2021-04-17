@@ -34,12 +34,6 @@ public class TodoController {
         return new ResponseEntity(todoService.getTodos(), HttpStatus.OK);
     }
 
-    @PutMapping("/todo")
-    public ResponseEntity updateTodo(TodoDto todoDto) {
-        todoService.updateTodo(todoDto);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @PatchMapping("/complete")
     public ResponseEntity completeTodo(TodoDto todoDto) {
         todoService.completeTodo(todoDto);

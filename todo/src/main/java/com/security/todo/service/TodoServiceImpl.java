@@ -19,6 +19,7 @@ public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
 
+    @Override
     public TodoDto addTodo(UserInfo userInfo, TodoDto todoDto) {
         Todo todo = Todo.builder()
                 .content(todoDto.getContent())
@@ -28,19 +29,17 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Transactional(readOnly = true)
+    @Override
     public Todo getTodo(Long pkey) {
         return todoRepository.findById(pkey).orElseThrow(() -> new NoSuchElementException());
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<TodoDto> getTodos() {
         return todoRepository.findAll(Sort.by(Sort.Direction.DESC, "pkey")).stream()
                 .map(x -> x.todoDto())
                 .collect(Collectors.toList());
-    }
-
-    public void updateTodo(TodoDto todoDto) {
-        todoRepository.save(todoDto.toEntity());
     }
 
     @Override

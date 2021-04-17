@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Required meta tags -->
@@ -9,15 +8,15 @@
     <!-- Bootstrap -->
     <!-- style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
     <link src="./css/todo.css"/>
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="./js/todo.js"></script>
     <!--  axios  -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./js/todo.js"></script>
 
 </head>
 <noscript>
@@ -34,6 +33,10 @@
 
     const contextPath = '/todo';
 
+    const modalHide = () => {
+        $('#addTodoModal').modal('hide');
+    }    
+        
     const makeTodoItem = (content, writer) => {
         return '<li class="list-group-item">' + 
             '<div class="todo-indicator bg-focus"></div>' + 
@@ -48,7 +51,14 @@
                             '<div>' + writer + '</div>' + 
                         '</div>' + 
                     '</div>' + 
-                    '<div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>' + 
+                    '<div class="widget-content-right">' + 
+                        '<button class="border-0 btn-transition btn btn-outline-success">' + 
+                            '<i class="fa fa-check"></i>' + 
+                        '</button>' + 
+                        '<button class="border-0 btn-transition btn btn-outline-danger">' + 
+                            '<i class="fa fa-trash"></i>' + 
+                        '</button>' + 
+                    '</div>' + 
                 '</div>' + 
             '</div>' + 
         '</li>';
@@ -85,6 +95,7 @@
                     const todo = response.data;
                     const item = makeTodoItem(todo.content, todo.writer);
                     todoListDom.prepend(item);
+                    modalHide();
                 }
             )
             .catch(
@@ -139,34 +150,18 @@
                             <div class="ps-content">
                                 <!-- Task List -->
                                 <ul id="todolist" class="list-group list-group-flush">
-                                    <!-- <li class="list-group-item">
-                                        <div class="todo-indicator bg-warning"></div>
-                                        <div class="widget-content p-0">
-                                            <div class="widget-content-wrapper">
-                                                <div class="widget-content-left mr-2">
-                                                    <div class="custom-checkbox custom-control"> <input class="custom-control-input" id="exampleCustomCheckbox12" type="checkbox"><label class="custom-control-label" for="exampleCustomCheckbox12">&nbsp;</label> </div>
-                                                </div>
-                                                <div class="widget-content-left">
-                                                    <div class="widget-heading">Call Sam For payments <div class="badge badge-danger ml-2">Rejected</div>
-                                                    </div>
-                                                    <div class="widget-subheading"><i>By Bob</i></div>
-                                                </div>
-                                                <div class="widget-content-right"> <button class="border-0 btn-transition btn btn-outline-success"> <i class="fa fa-check"></i></button> <button class="border-0 btn-transition btn btn-outline-danger"> <i class="fa fa-trash"></i> </button> </div>
-                                            </div>
-                                        </div>
-                                    </li> -->
                                 </ul>
                             </div>
                         </div>
                     </perfect-scrollbar>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button id="addTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                    <button id="addTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal">
                         Add Task
                     </button>
                 </div>
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="addTodoModalTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
