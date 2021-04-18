@@ -9,7 +9,7 @@
     <!-- style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
-    <link src="./css/todo.css"/>
+    <link rel="stylesheet" href="./css/todo.css"/>
     <!-- script -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -29,33 +29,49 @@
     $(document).ready(() => {
         loadTodoList();
         todoListDom = $('#todolist');
+
+        //Enter key event
+        $('#content').keyup((event) => {
+            if(event.keyCode==13) addTodo();
+        });
     });
 
     const contextPath = '/todo';
 
-    const modalHide = () => {
+    //Modal
+    const showModal = () => {
+        const input = $('#content');
+        input.focus();
+        $('#addTodoModal').modal('show');
+    }  
+
+    const hideModal = () => {
         $('#addTodoModal').modal('hide');
     }    
+
+    //Item with indicator
+    const completeIndicator = (complete) => {
+        if(complete) return '<div class="todo-indicator bg-success"></div>';
+        else return '';
+    }
         
-    const makeTodoItem = (content, writer) => {
+    const makeTodoItem = (todo) => {
         return '<li class="list-group-item">' + 
+            completeIndicator(todo.complete) + 
             '<div class="todo-indicator bg-focus"></div>' + 
             '<div class="widget-content p-0">' + 
                 '<div class="widget-content-wrapper">' + 
-                    '<div class="widget-content-left mr-2">' + 
-                        '<div class="custom-checkbox custom-control"><input class="custom-control-input" id="exampleCustomCheckbox1" type="checkbox"><label class="custom-control-label" for="exampleCustomCheckbox1">&nbsp;</label></div>' + 
-                    '</div>' + 
                     '<div class="widget-content-left">' + 
-                        '<div class="widget-heading">' + content + '</div>' + 
+                        '<div class="widget-heading">' + todo.content + '</div>' + 
                         '<div class="widget-subheading">' + 
-                            '<div>' + writer + '</div>' + 
+                            '<div>' + todo.writer + '</div>' + 
                         '</div>' + 
                     '</div>' + 
                     '<div class="widget-content-right">' + 
-                        '<button class="border-0 btn-transition btn btn-outline-success">' + 
+                        '<button class="border-0 btn-transition btn btn-outline-success" onclick="completeTodo(' + todo.pkey + ');">' + 
                             '<i class="fa fa-check"></i>' + 
                         '</button>' + 
-                        '<button class="border-0 btn-transition btn btn-outline-danger">' + 
+                        '<button class="border-0 btn-transition btn btn-outline-danger" onclick="deleteTodo(' + todo.pkey + ');">' + 
                             '<i class="fa fa-trash"></i>' + 
                         '</button>' + 
                     '</div>' + 
@@ -64,13 +80,34 @@
         '</li>';
     }
 
+    const removeTodoItems = () => {
+        $('.list-group-item').remove();
+    }
+
+    //Input
+    const clearAddInput = () => {
+        const input = $('#content');
+        input.val('');
+    }
+
+    //Validation
+    const validation = () =>{
+        const input = $('#content');
+        if(!input.val()) {
+            alert('내용을 입력하시기 바랍니다.');
+            return false;
+        }
+    }
+
+    //Axios
     const loadTodoList = () => {
         axios.get(`${contextPath}/todos`)
             .then(
                 response => {
+                    removeTodoItems();
                     const data = response.data;
                     data.forEach((todo) => {
-                        const listItem = makeTodoItem(todo.content, todo.writer);
+                        const listItem = makeTodoItem(todo);
                         todoListDom.append(listItem);
                     })
                 }
@@ -84,18 +121,22 @@
     }
 
     const addTodo = () => {
+
+        validation();
+
         const content = document.getElementById('content').value;
-        const param = {
+        const data = {
             content : content
         }
 
-        axios.post(`${contextPath}/todo`, param)
+        axios.post(`${contextPath}/todo`, data)
             .then(
                 response => {
                     const todo = response.data;
-                    const item = makeTodoItem(todo.content, todo.writer);
+                    const item = makeTodoItem(todo);
                     todoListDom.prepend(item);
-                    modalHide();
+                    hideModal();
+                    clearAddInput();
                 }
             )
             .catch(
@@ -106,11 +147,14 @@
             )
     }
 
-    const editTodo = () => {
-        axios.put(`${contextPath}/todo`)
+    const completeTodo = (pkey) => {
+        const data = {
+            pkey : pkey
+        }
+        axios.patch(`${contextPath}/complete`, data)
             .then(
                 response => {
-                    alert('axios test');
+                    loadTodoList();
                 }
             )
             .catch(
@@ -121,11 +165,14 @@
             )
     }
 
-    const deleteTodo = () => {
-        axios.delete(`${contextPath}/todos`)
+    const deleteTodo = (pkey) => {
+        const data = {
+            pkey : pkey
+        }
+        axios.delete(`${contextPath}/todo`, {data})
             .then(
                 response => {
-                    alert('axios test');
+                    loadTodoList();
                 }
             )
             .catch(
@@ -156,7 +203,7 @@
                     </perfect-scrollbar>
                 </div>
                 <div class="d-block text-right card-footer">
-                    <button id="addTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal">
+                    <button id="addTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal" onclick="showModal();">
                         Add Task
                     </button>
                 </div>

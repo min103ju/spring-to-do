@@ -14,7 +14,7 @@ public interface TodoService {
 
     public List<TodoDto> getTodos();
 
-    public void completeTodo(TodoDto todo);
+    public void completeTodo(Long pkey);
 
     public void deleteTodo(Long pkey);
 

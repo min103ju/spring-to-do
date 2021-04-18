@@ -35,14 +35,14 @@ public class TodoController {
     }
 
     @PatchMapping("/complete")
-    public ResponseEntity completeTodo(TodoDto todoDto) {
-        todoService.completeTodo(todoDto);
+    public ResponseEntity completeTodo(@RequestBody TodoDto todoDto) {
+        todoService.completeTodo(todoDto.getPkey());
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/todo")
-    public ResponseEntity deleteTodo(Long pkey) {
-        todoService.deleteTodo(pkey);
+    public ResponseEntity deleteTodo(@RequestBody TodoDto todoDto) {
+        todoService.deleteTodo(todoDto.getPkey());
         return new ResponseEntity(HttpStatus.OK);
     }
 

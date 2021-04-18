@@ -1,3 +1,7 @@
+spring:
+  jpa:
+    hibernate:
+      show-sql: true
 server:
   servlet:
     context-path: /todo

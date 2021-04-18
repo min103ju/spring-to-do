@@ -118,7 +118,7 @@ i {
     align-items: center
 }
 
-.widget-content .widget-content-right.widget-content-actions {
+.widget-content .widget-content-right .widget-content-actions {
     visibility: hidden;
     opacity: 0;
     transition: opacity .2s

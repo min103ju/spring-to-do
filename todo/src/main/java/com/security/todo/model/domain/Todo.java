@@ -39,4 +39,15 @@ public class Todo {
         );
     }
 
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "pkey=" + pkey +
+                ", content='" + content + '\'' +
+                ", writer='" + writer + '\'' +
+                ", complete=" + complete +
+                ", createDate=" + createDate +
+                ", completeDate=" + completeDate +
+                '}';
+    }
 }

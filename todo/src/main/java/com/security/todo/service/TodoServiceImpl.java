@@ -9,11 +9,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class TodoServiceImpl implements TodoService {
 
@@ -37,15 +39,25 @@ public class TodoServiceImpl implements TodoService {
     @Transactional(readOnly = true)
     @Override
     public List<TodoDto> getTodos() {
-        return todoRepository.findAll(Sort.by(Sort.Direction.DESC, "pkey")).stream()
+        return todoRepository.findAll(Sort.by(Sort.Direction.DESC, "pkey").and(Sort.by(Sort.Direction.ASC, "complete"))).stream()
                 .map(x -> x.todoDto())
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void completeTodo(TodoDto todoDto) {
-        todoDto.setComplete(true);
-        todoRepository.save(todoDto.toEntity());
+    public void completeTodo(Long pkey) {
+        Todo todo = todoRepository.findById(pkey)
+                .map(x -> {
+                    return x.builder()
+                            .pkey(x.getPkey())
+                            .content(x.getContent())
+                            .writer(x.getWriter())
+                            .complete(true)
+                            .createDate(x.getCreateDate())
+                            .completeDate(Instant.now())
+                            .build();
+                }).orElseThrow(() -> new NoSuchElementException());
+        todoRepository.save(todo);
     }
 
     @Override
