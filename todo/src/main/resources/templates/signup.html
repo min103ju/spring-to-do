@@ -8,13 +8,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Signin</title>
 
     <!-- Bootstrap -->
     <!-- 합쳐지고 최소화된 최신 CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <!-- 부가적인 테마 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- 내부 css -->
+    <link rel="stylesheet" href="./css/todo.css"/>
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
@@ -23,25 +23,34 @@
 
 <div class="container">
 
-    <form class="form-signin" th:action="@{/signup}" method="post">
-        <h2 class="form-signin-heading">Sign Up</h2>
-
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
-
-        <div class="input-group">
-            <span class="input-group-addon">
-                <input type="radio" name="auth" value="ROLE_ADMIN,ROLE_USER" checked="checked"> Admin <br>
-            </span>
-            <span class="input-group-addon">
-                <input type="radio" name="auth" value="ROLE_USER" checked="checked"> User <br>
-            </span>
+    <div class="card align-middle">
+        <div class="card-title mt-5" >
+            <h2 class="card-title text-center" style="color:#113366;">사용자 가입</h2>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+        <div class="card-body">
 
+            <form class="form-signin" th:action="@{/signup}" method="post">
+                <h2 class="form-signin-heading">사용자 정보를 입력하세요.</h2>
+
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="email" id="inputEmail" name="email" class="form-control mb-2" placeholder="Email address" required autofocus>
+
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" name="password" class="form-control mb-2" placeholder="Password" required>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-addon mr-2">
+                        <input type="radio" name="auth" value="ROLE_ADMIN" checked="checked"> 관리자 <br>
+                    </span>
+                    <span class="input-group-addon">
+                        <input type="radio" name="auth" value="ROLE_USER" checked="checked"> 일반사용자 <br>
+                    </span>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">가입</button>
+            </form>
+
+        </div>
+    </div>
 
 </div> <!-- /container -->
 

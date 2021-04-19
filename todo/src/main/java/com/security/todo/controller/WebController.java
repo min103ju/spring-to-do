@@ -1,15 +1,15 @@
 package com.security.todo.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class WebController {
 
-    @RequestMapping("/")
-    public String index() {
-        return "index";
-    }
+
 
     @RequestMapping("/signup")
     public String signup() {
@@ -20,10 +20,5 @@ public class WebController {
     public String todoList() {
         return "todoList";
     }
-
-//    @RequestMapping("/error")
-//    public String error() {
-//        return "error";
-//    }
 
 }
