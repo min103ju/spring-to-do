@@ -9,7 +9,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class WebController {
 
-
+    @GetMapping("/")
+    public ModelAndView index(@RequestParam(value = "error", required = false) Boolean error,
+                              @RequestParam(value = "errorMsg", required = false) String errorMsg,
+                              ModelAndView modelAndView) {
+        modelAndView.setViewName("index");
+        modelAndView.addObject("error", error);
+        modelAndView.addObject("errorMsg", errorMsg);
+        return modelAndView;
+    }
 
     @RequestMapping("/signup")
     public String signup() {

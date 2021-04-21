@@ -22,42 +22,41 @@
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <div class="card align-middle">
-        <div class="card-title mt-5" >
-            <h2 class="card-title text-center" style="color:#113366;">로그인</h2>
+        <div class="card align-middle">
+            <div class="card-title mt-5" >
+                <h2 class="card-title text-center" style="color:#113366;">로그인</h2>
+            </div>
+            <div class="card-body">
+                <form class="form-signin" th:action="@{/login}" method="post">
+                    <h2 class="form-signin-heading">로그인 정보를 입력하세요.</h2>
+
+                    <label for="inputEmail" class="sr-only">Email address</label>
+                    <input type="email" id="inputEmail" name="username" class="form-control mb-2" placeholder="Email address" required autofocus>
+
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" name="password" class="form-control mb-2" placeholder="Password" required>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="remember-me"> 기억하기
+                        </label>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">로그인</button>
+
+                    <div th:if="${error}" class="alert alert-danger">
+                        <p th:text="${errorMsg}"/>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="card-body">
-            <form class="form-signin" th:action="@{/login}" method="post">
-                <h2 class="form-signin-heading">로그인 정보를 입력하세요.</h2>
 
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" id="inputEmail" name="username" class="form-control mb-2" placeholder="Email address" required autofocus>
+        <h4 class="mt-2">
+            <a href="./signup" class="text-info">Go to join! →</a>
+        </h4>
 
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" name="password" class="form-control mb-2" placeholder="Password" required>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="remember-me"> 기억하기
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">로그인</button>
-
-                <div th:if="${error}" class="alert alert-danger">
-                    <p th:text="${errorMsg}"/>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <h4 class="mt-2">
-        <a href="./signup" class="text-info">Go to join! →</a>
-    </h4>
-
-</div> <!-- /container -->
-
+    </div> <!-- /container -->
 
 </body>
 </html>

@@ -19,8 +19,10 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /* 로그인 실패 Handler -> SigninFailureHandler를 Component로 등록하여 사용 중 */
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
+    /* Password Encoder Bean 등록 */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -55,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .logout()
                 .logoutSuccessUrl("/");
+
     }
 
 }

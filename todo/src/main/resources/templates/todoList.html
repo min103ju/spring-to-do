@@ -40,9 +40,9 @@
 
     //Modal
     const showModal = () => {
+        $('#addTodoModal').modal('show');
         const input = $('#content');
         input.focus();
-        $('#addTodoModal').modal('show');
     }  
 
     const hideModal = () => {
@@ -54,7 +54,7 @@
         if(complete) return '<div class="todo-indicator bg-success"></div>';
         else return '';
     }
-        
+    
     const makeTodoItem = (todo) => {
         return '<li class="list-group-item">' + 
             completeIndicator(todo.complete) + 
@@ -182,6 +182,12 @@
                 }
             )
     }
+
+    //Logout
+    const logout = () => {
+        axios.get(`${contextPath}/logout`);
+    }
+    
 </script>
 <body>
 
@@ -189,7 +195,17 @@
         <div class="col-md-8">
             <div class="card-hover-shadow-2x mb-3 card">
                 <div class="card-header-tab card-header">
-                    <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i class="fa fa-tasks"></i>&nbsp;Task Lists</div>
+                    <div class="card-header-title font-size-lg text-capitalize font-weight-normal mr-auto">
+                        <i class="fa fa-tasks"></i>&nbsp;
+                            Todo Lists
+                    </div>
+                    <div>
+                        <form class="m-0" th:action="@{/logout}" method="post">
+                            <button id="logout" type="submit" class="btn btn-primary">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <div class="scroll-area-sm">
                     <perfect-scrollbar class="ps-show-limits">
@@ -204,7 +220,7 @@
                 </div>
                 <div class="d-block text-right card-footer">
                     <button id="addTask" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTodoModal" onclick="showModal();">
-                        Add Task
+                        Add Todo
                     </button>
                 </div>
                 <!-- Modal -->
@@ -219,7 +235,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="input-group mb-3">
-                                    <input type="text" id="content" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                                    <input type="text" id="content" class="form-control" required autofocus aria-label="Default" aria-describedby="inputGroup-sizing-default">
                                 </div>
                             </div>
                             <div class="modal-footer">

@@ -1,7 +1,7 @@
 package com.security.todo.service;
 
 import com.security.todo.exception.CustomUserException;
-import com.security.todo.exception.enums.UserErrorEnum;
+import com.security.todo.exception.enums.ErrorEnum;
 import com.security.todo.model.UserInfo;
 import com.security.todo.model.UserInfoDto;
 import com.security.todo.repository.UserRepository;
@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
         userInfoDto.setPassword(passwordEncoder.encode(userInfoDto.getPassword()));
 
         if(userRepository.findOneByEmail(userInfoDto.getEmail()).isPresent()){
-            throw new CustomUserException(UserErrorEnum.ERROR_IS_PRESENT);
+            throw new CustomUserException(ErrorEnum.ERROR_USER_ALREADY_PRESENT);
         }
 
         return userRepository.save(

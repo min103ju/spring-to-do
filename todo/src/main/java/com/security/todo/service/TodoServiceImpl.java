@@ -1,14 +1,20 @@
 package com.security.todo.service;
 
+import com.security.todo.utils.SecurityUtil;
 import com.security.todo.model.domain.Todo;
 import com.security.todo.model.UserInfo;
 import com.security.todo.model.dto.TodoDto;
 import com.security.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -39,7 +45,10 @@ public class TodoServiceImpl implements TodoService {
     @Transactional(readOnly = true)
     @Override
     public List<TodoDto> getTodos() {
-        return todoRepository.findAll(Sort.by(Sort.Direction.DESC, "pkey").and(Sort.by(Sort.Direction.ASC, "complete"))).stream()
+
+        UserInfo currentUser = SecurityUtil.getCurrentUser();
+        Sort sort = Sort.by(Sort.Direction.DESC, "pkey").and(Sort.by(Sort.Direction.ASC, "complete"));
+        return todoRepository.findAllByWriter(currentUser.getEmail(), sort).stream()
                 .map(x -> x.todoDto())
                 .collect(Collectors.toList());
     }

@@ -5,4 +5,7 @@ spring:
 server:
   servlet:
     context-path: /todo
+  error:
+    whitelabel:
+      enabled: false
 
