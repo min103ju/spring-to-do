@@ -11,6 +11,8 @@
 ## Environment
 * Java 1.8
 * Spring boot 2.4.4
+* Gradle
+* Axios
 * Bootstrap 4.0.0
 * H2 In-Memory DB
 * Jquery 3.2.1
