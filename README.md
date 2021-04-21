@@ -39,7 +39,7 @@ annotationProcessor 'org.projectlombok:lombok'
 2. 사용자 로그인/로그아웃
 3. Todo 등록
 4. Todo 목록 조회
-  * 로그인한 사용자 것만 조회 가능
+ 1. 로그인한 사용자 것만 조회 가능
 5. Todo 삭제
 6. Todo 완료 처리
 7. Todo 내용 검색
