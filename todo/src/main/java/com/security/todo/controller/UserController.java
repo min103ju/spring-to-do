@@ -1,7 +1,7 @@
 package com.security.todo.controller;
 
-import com.security.todo.exception.CustomUserException;
-import com.security.todo.model.UserInfoDto;
+import com.security.todo.exception.CustomException;
+import com.security.todo.model.dto.UserInfoDto;
 import com.security.todo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public String signup(UserInfoDto userInfoDto) throws CustomUserException {
+    public String signup(UserInfoDto userInfoDto) throws CustomException {
         userService.save(userInfoDto);
         return "redirect:/";
     }

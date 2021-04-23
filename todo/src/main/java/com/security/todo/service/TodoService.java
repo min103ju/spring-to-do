@@ -1,7 +1,7 @@
 package com.security.todo.service;
 
 import com.security.todo.model.domain.Todo;
-import com.security.todo.model.UserInfo;
+import com.security.todo.model.domain.UserInfo;
 import com.security.todo.model.dto.TodoDto;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface TodoService {
 
     public Todo getTodo(Long pkey);
 
-    public List<TodoDto> getTodos();
+    public List<TodoDto> getTodos(TodoDto todoDto);
 
     public void completeTodo(Long pkey);
 

@@ -2,19 +2,18 @@ package com.security.todo.service;
 
 import com.security.todo.utils.SecurityUtil;
 import com.security.todo.model.domain.Todo;
-import com.security.todo.model.UserInfo;
+import com.security.todo.model.domain.UserInfo;
 import com.security.todo.model.dto.TodoDto;
 import com.security.todo.repository.TodoRepository;
+import com.security.todo.utils.search.SearchContent;
+import com.security.todo.utils.search.SearchStrategy;
+import com.security.todo.utils.search.SearchWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.time.Instant;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -44,11 +43,16 @@ public class TodoServiceImpl implements TodoService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<TodoDto> getTodos() {
+    public List<TodoDto> getTodos(TodoDto todoDto) {
 
         UserInfo currentUser = SecurityUtil.getCurrentUser();
+
+        SearchStrategy<Todo> searchWriter = new SearchWriter(currentUser.getEmail());
+        SearchStrategy<Todo> searchContent = new SearchContent(todoDto.getContent());
+        Specification<Todo> spec = Specification.where(searchWriter).and(searchContent);
+
         Sort sort = Sort.by(Sort.Direction.DESC, "pkey").and(Sort.by(Sort.Direction.ASC, "complete"));
-        return todoRepository.findAllByWriter(currentUser.getEmail(), sort).stream()
+        return todoRepository.findAll(spec, sort).stream()
                 .map(x -> x.todoDto())
                 .collect(Collectors.toList());
     }

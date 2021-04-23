@@ -2,15 +2,15 @@ package com.security.todo.exception;
 
 import com.security.todo.exception.enums.ErrorEnum;
 
-public class CustomUserException extends Exception{
+public class CustomException extends Exception{
 
     private ErrorEnum errorEnum;
 
-    public CustomUserException(String message) {
+    public CustomException(String message) {
         super(message);
     }
 
-    public CustomUserException(ErrorEnum errorEnum) {
+    public CustomException(ErrorEnum errorEnum) {
         super(errorEnum.getDesc());
         this.errorEnum = errorEnum;
     }

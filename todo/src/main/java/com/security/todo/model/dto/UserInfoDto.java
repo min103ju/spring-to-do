@@ -1,4 +1,4 @@
-package com.security.todo.model;
+package com.security.todo.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

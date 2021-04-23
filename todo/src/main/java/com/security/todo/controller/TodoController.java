@@ -1,7 +1,7 @@
 package com.security.todo.controller;
 
 import com.security.todo.model.domain.Todo;
-import com.security.todo.model.UserInfo;
+import com.security.todo.model.domain.UserInfo;
 import com.security.todo.model.dto.TodoDto;
 import com.security.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,8 @@ public class TodoController {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<TodoDto>> getTodos() {
-        return new ResponseEntity(todoService.getTodos(), HttpStatus.OK);
+    public ResponseEntity<List<TodoDto>> getTodos(TodoDto todoDto) {
+        return new ResponseEntity(todoService.getTodos(todoDto), HttpStatus.OK);
     }
 
     @PatchMapping("/complete")

@@ -1,6 +1,6 @@
 package com.security.todo.controller;
 
-import com.security.todo.exception.CustomUserException;
+import com.security.todo.exception.CustomException;
 import com.security.todo.exception.enums.ErrorEnum;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class CustomErrorController implements ErrorController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("error");
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        CustomUserException customException = (CustomUserException) request.getAttribute(CUSTOM_USER_EXCEPTION);
+        CustomException customException = (CustomException) request.getAttribute(CUSTOM_USER_EXCEPTION);
 
         int value = HttpStatus.NOT_FOUND.value();
 

@@ -1,9 +1,9 @@
 package com.security.todo.service;
 
-import com.security.todo.exception.CustomUserException;
+import com.security.todo.exception.CustomException;
 import com.security.todo.exception.enums.ErrorEnum;
-import com.security.todo.model.UserInfo;
-import com.security.todo.model.UserInfoDto;
+import com.security.todo.model.domain.UserInfo;
+import com.security.todo.model.dto.UserInfoDto;
 import com.security.todo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,11 +30,11 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
-    public Long save(UserInfoDto userInfoDto) throws CustomUserException {
+    public Long save(UserInfoDto userInfoDto) throws CustomException {
         userInfoDto.setPassword(passwordEncoder.encode(userInfoDto.getPassword()));
 
         if(userRepository.findOneByEmail(userInfoDto.getEmail()).isPresent()){
-            throw new CustomUserException(ErrorEnum.ERROR_USER_ALREADY_PRESENT);
+            throw new CustomException(ErrorEnum.ERROR_USER_ALREADY_PRESENT);
         }
 
         return userRepository.save(

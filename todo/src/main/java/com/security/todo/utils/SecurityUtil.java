@@ -1,6 +1,6 @@
 package com.security.todo.utils;
 
-import com.security.todo.model.UserInfo;
+import com.security.todo.model.domain.UserInfo;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityUtil {
